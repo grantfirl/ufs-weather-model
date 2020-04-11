@@ -16,7 +16,7 @@
   fhout = 3
   fhmaxhf = 120
   fhouthf = 1
-  ccpp_suite = 'FV3_GFS_v15p2'
+  ccpp_suite = '@[CCPP_SUITE]'
 /
 
 &diag_manager_nml
@@ -118,7 +118,7 @@
   fhzero       = 6
   h2o_phys     = .true.
   ldiag3d      = .false.
-  fhcyc        = 24
+  fhcyc        = 0.
   use_ufo      = .true.
   pre_rad      = .false.
   ncld         = 5
@@ -150,7 +150,7 @@
   prslrd0      = 0.
   ivegsrc      = 1
   isot         = 1
-  lsm          = 1
+  lsm          = @[lsm]
   debug        = .false.
   oz_phys      = .F.
   oz_phys_2015 = .T.
