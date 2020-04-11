@@ -24,6 +24,9 @@ export CCPP_SUITE=FV3_HWRF
 export CCPP_LIB_DIR=ccpp/lib
 export INPUT_NML=ccpp_regional_c768_HWRF.nml.IN
 
+export OZ_PHYS_OLD=.F.
+export OZ_PHYS_NEW=.T.
+
 #F-A microphysics
 export LRADAR=.T.
 
