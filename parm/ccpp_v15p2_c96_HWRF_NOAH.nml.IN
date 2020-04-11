@@ -150,7 +150,7 @@
   prslrd0      = 0.
   ivegsrc      = 1
   isot         = 1
-  lsm          = @[lsm]
+  lsm          = @[LSM]
   debug        = .false.
   oz_phys      = .F.
   oz_phys_2015 = .T.
