@@ -161,7 +161,9 @@
        trans_trac     = .true.
        cnvcld         = .false.
        imfshalcnv     = 2
+       hwrf_samfshal  = @[HWRF_SAMFSHAL]
        imfdeepcnv     = 2
+       hwrf_samfdeep  = @[HWRF_SAMFDEEP]
        cdmbgwd        = 3.5, 0.25       ! NCEP default
        prslrd0        = 0.
        ivegsrc        = 1
