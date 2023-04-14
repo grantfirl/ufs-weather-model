@@ -586,6 +586,9 @@ export PRINT_DIFF_PGR=.false.
 
 # Coupling
 export coupling_interval_fast_sec=0
+
+# Tiedtke Prognostic Clouds
+export tiedtke_prog_clouds=.false.
 }
 
 export_cpl ()

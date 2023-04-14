@@ -231,6 +231,7 @@ deflate_level=1
   rrtmgp_nBandsSW    = 14
   doGP_cldoptics_LUT = @[DOGP_CLDOPTICS_LUT]
   doGP_lwscat        = @[DOGP_LWSCAT]
+  tiedtke_prog_clouds = @[TIEDTKE_PROG_CLOUDS]
 /
 
 &gfdl_cloud_microphysics_nml
