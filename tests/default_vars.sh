@@ -258,9 +258,6 @@ elif [[ $MACHINE_ID = cheyenne ]]; then
 
 elif [[ $MACHINE_ID = stampede ]]; then
 
-  echo "Unknown MACHINE_ID ${MACHINE_ID}. Please update tasks configurations in default_vars.sh"
-  exit 1
-
   TPN_dflt=48 ; INPES_dflt=3 ; JNPES_dflt=8
   TPN_thrd=24 ; INPES_thrd=3 ; JNPES_thrd=4
   TPN_c384=20 ; INPES_c384=8 ; JNPES_c384=6
@@ -299,9 +296,6 @@ elif [[ ${MACHINE_ID} = noaacloud ]] ; then
     WAV_tasks_cpl_thrd=12
 
 elif [[ $MACHINE_ID = expanse ]]; then
-
-  echo "Unknown MACHINE_ID ${MACHINE_ID}. Please update tasks configurations in default_vars.sh"
-  exit 1
 
   TPN_dflt=64 ; INPES_dflt=3 ; JNPES_dflt=8
   TPN_thrd=64 ; INPES_thrd=3 ; JNPES_thrd=4
