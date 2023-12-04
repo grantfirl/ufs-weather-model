@@ -9,10 +9,12 @@ die() { echo "$@" >&2; exit 1; }
 usage() {
   set +x
   echo
-  echo "Usage: $0 -a <account> | -c | -e | -h | -k | -w | -d | -l <file> | -m | -n <name> | -r "
+  echo "Usage: $0 -a <account> | -b <file> | -c | -d | -e | -h | -k | -l <file> | -m | -n <name> | -r | -w"
   echo
   echo "  -a  <account> to use on for HPC queue"
+  echo "  -b  create new baselines only for tests listed in <file>"
   echo "  -c  create new baseline results"
+  echo "  -d  delete run direcotries that are not used by other tests"
   echo "  -e  use ecFlow workflow manager"
   echo "  -h  display this help"
   echo "  -k  keep run directory after rt.sh is completed"
@@ -77,6 +79,37 @@ rt_single() {
   fi
 }
 
+create_or_run_compile_task() {
+
+  cat << EOF > ${RUNDIR_ROOT}/compile_${COMPILE_NR}.env
+  export JOB_NR=${JOB_NR}
+  export COMPILE_NR=${COMPILE_NR}
+  export MACHINE_ID=${MACHINE_ID}
+  export RT_COMPILER=${RT_COMPILER}
+  export PATHRT=${PATHRT}
+  export PATHTR=${PATHTR}
+  export SCHEDULER=${SCHEDULER}
+  export ACCNR=${ACCNR}
+  export QUEUE=${COMPILE_QUEUE}
+  export PARTITION=${PARTITION}
+  export ROCOTO=${ROCOTO}
+  export ECFLOW=${ECFLOW}
+  export REGRESSIONTEST_LOG=${REGRESSIONTEST_LOG}
+  export LOG_DIR=${LOG_DIR}
+EOF
+
+  if [[ $ROCOTO == true ]]; then
+    rocoto_create_compile_task
+  elif [[ $ECFLOW == true ]]; then
+    ecflow_create_compile_task
+  else
+    ./run_compile.sh ${PATHRT} ${RUNDIR_ROOT} "${MAKE_OPT}" ${COMPILE_NR} > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
+  fi
+
+  RT_SUFFIX=""
+  BL_SUFFIX=""
+}
+
 rt_35d() {
 if [[ $TEST_NAME =~ '35d' ]] ; then
   local sy=$(echo ${DATE_35D} | cut -c 1-4)
@@ -139,13 +172,16 @@ RTPWD_NEW_BASELINE=false
 SKIP_ORDER=false
 export skip_check_results=false
 export delete_rundir=false
-
 TESTS_FILE='rt.conf'
+NEW_BASELINES_FILE=''
 
-while getopts ":a:cl:mn:dkrep:s:wh" opt; do
+while getopts ":a:b:cl:mn:dwkreh" opt; do
   case $opt in
     a)
       ACCNR=$OPTARG
+      ;;
+    b)
+      NEW_BASELINES_FILE=$OPTARG
       ;;
     c)
       CREATE_BASELINE=true
@@ -168,8 +204,8 @@ while getopts ":a:cl:mn:dkrep:s:wh" opt; do
         echo "The -n option needs <testname> AND <compiler>, i.e. -n control_p8 intel"
         exit 1
       fi
-      SINGLE_NAME=${SINGLE_OPTS[0],,}
-      export RT_COMPILER=${SINGLE_OPTS[1],,}
+      SINGLE_NAME=${SINGLE_OPTS[0]}
+      export RT_COMPILER=${SINGLE_OPTS[1]}
 
       if [[ "$RT_COMPILER" == "intel" ]] || [[ "$RT_COMPILER" == "gnu" ]]; then
         echo "COMPILER set to ${RT_COMPILER}"
@@ -234,6 +270,7 @@ source ${sourcefile:-"machine/$MACHINE_ID"}
 # Overwrite default RUNDIR_ROOT if environment variable RUNDIR_ROOT is set
 RUNDIR_ROOT=${RUNDIR_ROOT:-${PTMP}/${USER}/FV3_RT}/rt_$$
 mkdir -p ${RUNDIR_ROOT}
+echo "Run regression test in: ${RUNDIR_ROOT}"
 
 if [[ $SINGLE_NAME != '' ]]; then
   rt_single
@@ -252,6 +289,18 @@ else
   RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-${BL_DATE}}
 fi
 
+if [[ "$CREATE_BASELINE" == false ]] ; then
+  if [[ ! -d "$RTPWD" ]] ; then
+    echo "Baseline directory does not exist:"
+    echo "   $RTPWD"
+    exit 1
+  elif [[ $( ls -1 "$RTPWD/" | wc -l ) -lt 1 ]] ; then
+    echo "Baseline directory is empty:"
+    echo "   $RTPWD"
+    exit 1
+  fi
+fi
+
 INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20221101}
 INPUTDATA_ROOT_WW3=${INPUTDATA_ROOT}/WW3_input_data_20220624
 INPUTDATA_ROOT_BMIC=${INPUTDATA_ROOT_BMIC:-$DISKNM/NEMSfv3gfs/BM_IC-20220207}
@@ -262,6 +311,16 @@ if [[ $CREATE_BASELINE == true ]]; then
   #
   rm -rf "${NEW_BASELINE}"
   mkdir -p "${NEW_BASELINE}"
+
+  NEW_BASELINES_TESTS=()
+  if [[ $NEW_BASELINES_FILE != '' ]]; then
+    readarray -t NEW_BASELINES_TESTS < $NEW_BASELINES_FILE
+    echo "New baselines will be created for:"
+    for test_name in "${NEW_BASELINES_TESTS[@]}"
+    do
+      echo "  $test_name"
+    done
+  fi
 fi
 
 if [[ $skip_check_results == true ]]; then
@@ -275,7 +334,10 @@ echo "Start Regression test" >> ${REGRESSIONTEST_LOG}
 echo                         >> ${REGRESSIONTEST_LOG}
 echo "Testing UFSWM Hash:" `git rev-parse HEAD` >> ${REGRESSIONTEST_LOG}
 echo "Testing With Submodule Hashes:" >> ${REGRESSIONTEST_LOG}
+cd ..
 git submodule status >> ${REGRESSIONTEST_LOG}
+
+cd tests
 
 source default_vars.sh
 
@@ -308,6 +370,10 @@ if [[ $ROCOTO == true ]]; then
     QUEUE=batch
     COMPILE_QUEUE=batch
     ROCOTO_SCHEDULER=slurm
+  elif [[ $MACHINE_ID = hercules ]]; then
+    QUEUE=windfall
+    COMPILE_QUEUE=windfall
+    ROCOTO_SCHEDULER=slurm
   elif [[ $MACHINE_ID = s4 ]]; then
     QUEUE=s4
     COMPILE_QUEUE=s4
@@ -319,6 +385,14 @@ if [[ $ROCOTO == true ]]; then
   elif [[ $MACHINE_ID = jet ]]; then
     QUEUE=batch
     COMPILE_QUEUE=batch
+    ROCOTO_SCHEDULER=slurm
+  elif [[ $MACHINE_ID = cheyenne ]]; then
+    QUEUE=regular
+    COMPILE_QUEUE=regular
+    ROCOTO_SCHEDULER=pbspro
+  elif [[ $MACHINE_ID = gaea ]]; then
+    QUEUE=normal
+    COMPILE_QUEUE=normal
     ROCOTO_SCHEDULER=slurm
   else
     die "Rocoto is not supported on this machine $MACHINE_ID"
@@ -351,13 +425,10 @@ if [[ $ECFLOW == true ]]; then
   MAX_BUILDS=10
   MAX_JOBS=30
 
-  # Default number of tries to run jobs - on wcoss, no error tolerance
+  # Default number of tries to run jobs
   ECF_TRIES=2
-  if [[ $MACHINE_ID = wcoss ]]; then
-    ECF_TRIES=1
-  fi
 
-  # Reduce maximum number of compile jobs on jet.intel and s4.intel because of licensing issues
+  # Reduce maximum number of compile jobs on jet and s4 because of licensing issues
   if [[ $MACHINE_ID = jet ]]; then
     MAX_BUILDS=5
   elif [[ $MACHINE_ID = s4 ]]; then
@@ -387,6 +458,8 @@ EOF
     QUEUE=batch
   elif [[ $MACHINE_ID = orion ]]; then
     QUEUE=batch
+  elif [[ $MACHINE_ID = hercules ]]; then
+    QUEUE=windfall
   elif [[ $MACHINE_ID = jet ]]; then
     QUEUE=batch
   elif [[ $MACHINE_ID = s4 ]]; then
@@ -412,6 +485,7 @@ in_metatask=false
 [[ -f $TESTS_FILE ]] || die "$TESTS_FILE does not exist"
 
 LAST_COMPILER_NR=-9999
+COMPILE_PREV==''
 
 declare -A compiles
 
@@ -424,13 +498,14 @@ while read -r line || [ "$line" ]; do
   JOB_NR=$( printf '%03d' $(( 10#$JOB_NR + 1 )) )
 
   if [[ $line == COMPILE* ]]; then
-    
+
     COMPILE_NAME=$( echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
     RT_COMPILER=$(echo $line | cut -d'|' -f3 | sed -e 's/^ *//' -e 's/ *$//')
     MAKE_OPT=$(   echo $line | cut -d'|' -f4 | sed -e 's/^ *//' -e 's/ *$//')
     MACHINES=$(   echo $line | cut -d'|' -f5 | sed -e 's/^ *//' -e 's/ *$//')
     CB=$(         echo $line | cut -d'|' -f6)
     COMPILE_NR=${COMPILE_NAME}_${RT_COMPILER}
+    COMPILE_PREV=${COMPILE_NR}
 
     set +u
     if [[ ! -z ${compiles[$COMPILE_NR]} ]] ; then
@@ -454,33 +529,11 @@ while read -r line || [ "$line" ]; do
       fi
     fi
 
-    cat << EOF > ${RUNDIR_ROOT}/compile_${COMPILE_NR}.env
-    export JOB_NR=${JOB_NR}
-    export COMPILE_NR=${COMPILE_NR}
-    export MACHINE_ID=${MACHINE_ID}
-    export RT_COMPILER=${RT_COMPILER}
-    export PATHRT=${PATHRT}
-    export PATHTR=${PATHTR}
-    export SCHEDULER=${SCHEDULER}
-    export ACCNR=${ACCNR}
-    export QUEUE=${COMPILE_QUEUE}
-    export PARTITION=${PARTITION}
-    export ROCOTO=${ROCOTO}
-    export ECFLOW=${ECFLOW}
-    export REGRESSIONTEST_LOG=${REGRESSIONTEST_LOG}
-    export LOG_DIR=${LOG_DIR}
-EOF
-
-    if [[ $ROCOTO == true ]]; then
-      rocoto_create_compile_task
-    elif [[ $ECFLOW == true ]]; then
-      ecflow_create_compile_task
-    else
-      ./run_compile.sh ${PATHRT} ${RUNDIR_ROOT} "${MAKE_OPT}" ${COMPILE_NR} > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
+    if [[ $CREATE_BASELINE == true && $NEW_BASELINES_FILE != '' ]]; then
+      continue
     fi
 
-    RT_SUFFIX=""
-    BL_SUFFIX=""
+    create_or_run_compile_task
 
     continue
 
@@ -510,6 +563,26 @@ EOF
       fi
     fi
 
+    COMPILE_METATASK_NAME=${COMPILE_NR}
+    if [[ $CREATE_BASELINE == true && $NEW_BASELINES_FILE != '' ]]; then
+      if [[ ! " ${NEW_BASELINES_TESTS[*]} " =~ " ${TEST_NAME} " ]]; then
+        echo "Link current baselines for test ${TEST_NAME}_${RT_COMPILER}"
+        (
+          source ${PATHRT}/tests/$TEST_NAME
+          ln -s ${RTPWD}/${CNTL_DIR}_${RT_COMPILER} ${NEW_BASELINE}
+        )
+        continue
+      else
+        echo "Create new baselines for test ${TEST_NAME}_${RT_COMPILER}"
+        # look at COMPILE_PREV, and if it's not an empty string run compile step
+        # and reset it to empty so that we do not run compile more than once
+        if [[ ${COMPILE_PREV} != '' ]]; then
+          create_or_run_compile_task
+          [[ $ROCOTO == true || $ECFLOW == true ]] && COMPILE_PREV=''
+        fi
+      fi
+    fi
+
     # 35 day tests
     [[ $TEST_35D == true ]] && rt_35d
 
@@ -521,7 +594,7 @@ EOF
       new_compile=false
       in_metatask=true
       cat << EOF >> $ROCOTO_XML
-  <metatask name="compile_${COMPILE_NR}_tasks"><var name="zero">0</var>
+  <metatask name="compile_${COMPILE_METATASK_NAME}_tasks"><var name="zero">0</var>
 EOF
     fi
 
