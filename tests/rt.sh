@@ -23,7 +23,6 @@ usage() {
   echo "  -n  run single test <name>"
   echo "  -r  use Rocoto workflow manager"
   echo "  -w  for weekly_test, skip comparing baseline results"
-  echo "  -d  delete run directories that are not used by other tests"
   echo "  -p  platform (machine name)"
   echo "  -s  specify sourced environment file (default is machine/\$platform)"
   echo
@@ -174,9 +173,9 @@ export skip_check_results=false
 export delete_rundir=false
 
 TESTS_FILE='rt.conf'
+NEW_BASELINES_FILE=''
 
-while getopts ":a:cl:mn:dkrep:s:wh" opt; do
-  case $opt in
+while getopts ":a:b:cl:mn:dkrep:s:wh" opt; do  case $opt in
     a)
       ACCNR=$OPTARG
       ;;
@@ -204,8 +203,8 @@ while getopts ":a:cl:mn:dkrep:s:wh" opt; do
         echo "The -n option needs <testname> AND <compiler>, i.e. -n control_p8 intel"
         exit 1
       fi
-      SINGLE_NAME=${SINGLE_OPTS[0],,}
-      export RT_COMPILER=${SINGLE_OPTS[1],,}
+      SINGLE_NAME=${SINGLE_OPTS[0]}
+      export RT_COMPILER=${SINGLE_OPTS[1]}
 
       if [[ "$RT_COMPILER" == "intel" ]] || [[ "$RT_COMPILER" == "gnu" ]]; then
         echo "COMPILER set to ${RT_COMPILER}"
