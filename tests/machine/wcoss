@@ -22,6 +22,3 @@
   STMP=/lfs/h2/emc/ptmp
   PTMP=/lfs/h2/emc/ptmp
   SCHEDULER=pbs
-  cp fv3_conf/fv3_qsub.IN_wcoss2 fv3_conf/fv3_qsub.IN
-  cp fv3_conf/compile_qsub.IN_wcoss2 fv3_conf/compile_qsub.IN
-

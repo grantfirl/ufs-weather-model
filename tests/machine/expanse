@@ -8,5 +8,3 @@
   STMP=$dprefix
   PTMP=$dprefix
   SCHEDULER=slurm
-  cp fv3_conf/fv3_slurm.IN_expanse fv3_conf/fv3_slurm.IN
-

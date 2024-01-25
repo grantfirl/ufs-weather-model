@@ -22,4 +22,3 @@
   STMP=$dprefix
   PTMP=$dprefix
   SCHEDULER=pbs
-

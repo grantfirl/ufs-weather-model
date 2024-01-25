@@ -15,6 +15,3 @@
   STMP=$dprefix/stmp4
   PTMP=$dprefix/stmp2
   SCHEDULER=slurm
-  cp fv3_conf/fv3_slurm.IN_noaacloud fv3_conf/fv3_slurm.IN
-  cp fv3_conf/compile_slurm.IN_noaacloud fv3_conf/compile_slurm.IN
-

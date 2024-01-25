@@ -23,7 +23,6 @@ usage() {
   echo "  -n  run single test <name>"
   echo "  -r  use Rocoto workflow manager"
   echo "  -w  for weekly_test, skip comparing baseline results"
-  echo "  -d  delete run directories that are not used by other tests"
   echo "  -p  platform (machine name)"
   echo "  -s  specify sourced environment file (default is machine/\$platform)"
   echo
@@ -172,11 +171,11 @@ RTPWD_NEW_BASELINE=false
 SKIP_ORDER=false
 export skip_check_results=false
 export delete_rundir=false
+
 TESTS_FILE='rt.conf'
 NEW_BASELINES_FILE=''
 
-while getopts ":a:b:cl:mn:dwkreh" opt; do
-  case $opt in
+while getopts ":a:b:cl:mn:dkrep:s:wh" opt; do  case $opt in
     a)
       ACCNR=$OPTARG
       ;;
@@ -289,18 +288,6 @@ else
   RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-${BL_DATE}}
 fi
 
-if [[ "$CREATE_BASELINE" == false ]] ; then
-  if [[ ! -d "$RTPWD" ]] ; then
-    echo "Baseline directory does not exist:"
-    echo "   $RTPWD"
-    exit 1
-  elif [[ $( ls -1 "$RTPWD/" | wc -l ) -lt 1 ]] ; then
-    echo "Baseline directory is empty:"
-    echo "   $RTPWD"
-    exit 1
-  fi
-fi
-
 INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20221101}
 INPUTDATA_ROOT_WW3=${INPUTDATA_ROOT}/WW3_input_data_20220624
 INPUTDATA_ROOT_BMIC=${INPUTDATA_ROOT_BMIC:-$DISKNM/NEMSfv3gfs/BM_IC-20220207}
@@ -334,10 +321,7 @@ echo "Start Regression test" >> ${REGRESSIONTEST_LOG}
 echo                         >> ${REGRESSIONTEST_LOG}
 echo "Testing UFSWM Hash:" `git rev-parse HEAD` >> ${REGRESSIONTEST_LOG}
 echo "Testing With Submodule Hashes:" >> ${REGRESSIONTEST_LOG}
-cd ..
 git submodule status >> ${REGRESSIONTEST_LOG}
-
-cd tests
 
 source default_vars.sh
 
@@ -370,10 +354,6 @@ if [[ $ROCOTO == true ]]; then
     QUEUE=batch
     COMPILE_QUEUE=batch
     ROCOTO_SCHEDULER=slurm
-  elif [[ $MACHINE_ID = hercules ]]; then
-    QUEUE=windfall
-    COMPILE_QUEUE=windfall
-    ROCOTO_SCHEDULER=slurm
   elif [[ $MACHINE_ID = s4 ]]; then
     QUEUE=s4
     COMPILE_QUEUE=s4
@@ -385,14 +365,6 @@ if [[ $ROCOTO == true ]]; then
   elif [[ $MACHINE_ID = jet ]]; then
     QUEUE=batch
     COMPILE_QUEUE=batch
-    ROCOTO_SCHEDULER=slurm
-  elif [[ $MACHINE_ID = cheyenne ]]; then
-    QUEUE=regular
-    COMPILE_QUEUE=regular
-    ROCOTO_SCHEDULER=pbspro
-  elif [[ $MACHINE_ID = gaea ]]; then
-    QUEUE=normal
-    COMPILE_QUEUE=normal
     ROCOTO_SCHEDULER=slurm
   else
     die "Rocoto is not supported on this machine $MACHINE_ID"
@@ -458,8 +430,6 @@ EOF
     QUEUE=batch
   elif [[ $MACHINE_ID = orion ]]; then
     QUEUE=batch
-  elif [[ $MACHINE_ID = hercules ]]; then
-    QUEUE=windfall
   elif [[ $MACHINE_ID = jet ]]; then
     QUEUE=batch
   elif [[ $MACHINE_ID = s4 ]]; then

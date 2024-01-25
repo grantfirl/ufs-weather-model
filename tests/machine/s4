@@ -21,6 +21,3 @@
   PTMP=/scratch/users
 
   SCHEDULER=slurm
-  cp fv3_conf/fv3_slurm.IN_s4 fv3_conf/fv3_slurm.IN
-  cp fv3_conf/compile_slurm.IN_s4 fv3_conf/compile_slurm.IN
-
