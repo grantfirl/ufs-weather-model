@@ -10,5 +10,3 @@
   SCHEDULER=slurm
   MPIEXEC=ibrun
   MPIEXECOPTS=
-  cp fv3_conf/fv3_slurm.IN_stampede fv3_conf/fv3_slurm.IN
-

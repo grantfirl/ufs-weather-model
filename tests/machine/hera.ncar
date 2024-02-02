@@ -7,11 +7,11 @@
   ROCOTOCOMPLETE=$(which rocotocomplete)
   ROCOTO_SCHEDULER=slurm
 
-  PYTHONHOME=/scratch1/NCEPDEV/nems/emc.nemspara/soft/miniconda3_new_20210629
+  PYTHONHOME=/scratch1/NCEPDEV/jcsda/jedipara/spack-stack/miniconda-3.9.12
   export PATH=$PYTHONHOME/bin:$PATH
-  export PYTHONPATH=$PYTHONHOME/lib/python3.7/site-packages
+  export PYTHONPATH=$PYTHONHOME/lib/python3.9/site-packages
 
-  module load ecflow
+  module load ecflow/5.5.3
   ECFLOW_START=ecflow_start.sh
 
   QUEUE=batch
@@ -27,6 +27,3 @@
   INPUTDATA_ROOT_BMIC=/scratch1/BMC/gmtb/CCPP_regression_testing/NCAR_ufs-weather-model/baselines/BM_IC-20220207
 
   SCHEDULER=slurm
-  cp fv3_conf/fv3_slurm.IN_hera fv3_conf/fv3_slurm.IN
-  cp fv3_conf/compile_slurm.IN_hera fv3_conf/compile_slurm.IN
-
