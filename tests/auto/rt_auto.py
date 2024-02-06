@@ -264,7 +264,27 @@ class Job:
 #        if exception is not None:
 #            raise
 
-def setup_env(git_cfg):
+def setup_env():
+    hostname = os.getenv('HOSTNAME')
+    if bool(re.match(re.compile('hfe.+'), hostname)):
+        machine = 'hera'
+    elif bool(re.match(re.compile('hecflow.+'), hostname)):
+        machine = 'hera'
+    elif bool(re.match(re.compile('fe.+'), hostname)):
+        machine = 'jet'
+        os.environ['ACCNR'] = 'h-nems'
+    elif bool(re.match(re.compile('gaea.+'), hostname)):
+        machine = 'gaea'
+        os.environ['ACCNR'] = 'nggps_emc'
+    elif bool(re.match(re.compile('Orion-login.+'), hostname)):
+        machine = 'orion'
+    elif bool(re.match(re.compile('chadmin.+'), hostname)):
+        machine = 'derecho'
+        os.environ['ACCNR'] = 'P48503002'
+    else:
+        raise KeyError(f'Hostname: {hostname} does not match '\
+                        'for a supported system. Exiting.')
+
     # Dictionary of GitHub repositories to check
 
     if not git_cfg.get('repo'):
