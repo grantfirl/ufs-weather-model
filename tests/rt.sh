@@ -23,7 +23,6 @@ usage() {
   echo "  -n  run single test <name>"
   echo "  -r  use Rocoto workflow manager"
   echo "  -w  for weekly_test, skip comparing baseline results"
-  echo "  -d  delete run directories that are not used by other tests"
   echo "  -p  platform (machine name)"
   echo "  -s  specify sourced environment file (default is machine/\$platform)"
   echo
@@ -172,11 +171,11 @@ RTPWD_NEW_BASELINE=false
 SKIP_ORDER=false
 export skip_check_results=false
 export delete_rundir=false
+
 TESTS_FILE='rt.conf'
 NEW_BASELINES_FILE=''
 
-while getopts ":a:b:cl:mn:dwkreh" opt; do
-  case $opt in
+while getopts ":a:b:cl:mn:dkrep:s:wh" opt; do  case $opt in
     a)
       ACCNR=$OPTARG
       ;;
