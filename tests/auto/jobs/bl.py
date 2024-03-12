@@ -44,7 +44,7 @@ def set_directories(job_obj):
         blstore = '/work/noaa/nems/emc.nemspara/RT/NEMSfv3gfs'
         new_baseline = '/work/noaa/stmp/bcurtis/stmp/bcurtis/FV3_RT/'\
                  f'REGRESSION_TEST_{job_obj.compiler.upper()}'
-    elif machine == 'cheyenne':
+    elif machine == 'derecho':
         workdir = '/glade/scratch/dtcufsrt/autort/tests/auto/pr'
         blstore = '/glade/p/ral/jntp/GMTB/ufs-weather-model/RT/NEMSfv3gfs'
         new_baseline = '/glade/scratch/dtcufsrt/FV3_RT/'\
