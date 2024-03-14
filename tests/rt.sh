@@ -385,11 +385,11 @@ if [[ $ROCOTO == true ]]; then
     QUEUE=batch
     COMPILE_QUEUE=batch
     ROCOTO_SCHEDULER=slurm
-  elif [[ $MACHINE_ID = cheyenne ]]; then
+  elif [[ $MACHINE_ID = derecho ]]; then
     QUEUE=regular
     COMPILE_QUEUE=regular
     ROCOTO_SCHEDULER=pbspro
-  elif [[ $MACHINE_ID = gaea ]]; then
+  elif [[ $MACHINE_ID = gaea-c5 ]]; then
     QUEUE=normal
     COMPILE_QUEUE=normal
     ROCOTO_SCHEDULER=slurm
@@ -463,9 +463,9 @@ EOF
     QUEUE=batch
   elif [[ $MACHINE_ID = s4 ]]; then
     QUEUE=s4
-  elif [[ $MACHINE_ID = gaea ]]; then
+  elif [[ $MACHINE_ID = gaea* ]]; then
     QUEUE=normal
-  elif [[ $MACHINE_ID = cheyenne ]]; then
+  elif [[ $MACHINE_ID = derecho ]]; then
     QUEUE=regular
   else
     die "ecFlow is not supported on this machine $MACHINE_ID"
