@@ -11,28 +11,6 @@ def run(job_obj):
     post_process(job_obj, pr_repo_loc, repo_dir_str, branch)
 
 
-def set_directories(job_obj):
-    logger = logging.getLogger('RT/SET_DIRECTORIES')
-    if job_obj.machine == 'hera':
-        workdir = '/scratch1/NCEPDEV/nems/emc.nemspara/autort/pr'
-    elif job_obj.machine == 'jet':
-        workdir = '/lfs4/HFIP/h-nems/emc.nemspara/autort/pr'
-    elif job_obj.machine == 'gaea':
-        workdir = '/lustre/f2/pdata/ncep/emc.nemspara/autort/pr'
-    elif job_obj.machine == 'orion':
-        workdir = '/work/noaa/nems/emc.nemspara/autort/pr'
-    elif job_obj.machine == 'derecho':
-        workdir = '/glade/scratch/dtcufsrt/autort/tests/auto/pr'
-    else:
-        print(f'Machine {job_obj.machine} is not supported for this job')
-        raise KeyError
-
-    logger.info(f'machine: {job_obj.machine}')
-    logger.info(f'workdir: {workdir}')
-
-    return workdir
-
-
 def run_regression_test(job_obj, pr_repo_loc):
     logger = logging.getLogger('RT/RUN_REGRESSION_TEST')
 
