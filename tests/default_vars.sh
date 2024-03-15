@@ -455,7 +455,6 @@ export HYBEDMF=.true.
 export SHINHONG=.false.
 export DO_YSU=.false.
 export DO_MYNNEDMF=.false.
-export DO_MYJPBL=.false.
 export HURR_PBL=.false.
 export MONINQ_FAC=1.0
 export SFCLAY_COMPUTE_FLUX=.false.
@@ -510,6 +509,7 @@ export CPLICE=.false.
 export CPLWAV=.false.
 export CPLWAV2ATM=.false.
 export CPLLND=.false.
+export CPLLND2ATM=.false.
 export USE_MED_FLUX=.false.
 export DAYS=1
 export NPX=97
@@ -632,6 +632,8 @@ export PRINT_DIFF_PGR=.false.
 
 # Coupling
 export coupling_interval_fast_sec=0
+export CHOUR=06
+export MOM6_OUTPUT_DIR=./MOM6_OUTPUT
 }
 
 # Defaults for the CICE6 model namelist, mx100
@@ -777,6 +779,7 @@ export SYEAR=2021
 export SMONTH=03
 export SDAY=22
 export SHOUR=06
+export CHOUR=06
 export FHMAX=24
 export FHROT=0
 export DT_ATMOS=720
@@ -821,7 +824,7 @@ export FRAC_GRID=.true.
 export CCPP_SUITE=FV3_GFS_v17_coupled_p8
 export INPUT_NML=cpld_control.nml.IN
 export FIELD_TABLE=field_table_thompson_noaero_tke_GOCART
-export DIAG_TABLE=diag_table_p8_template
+export DIAG_TABLE=diag_table_cpld.IN
 export DIAG_TABLE_ADDITIONAL=''
 
 export FHZERO=6
@@ -1024,6 +1027,7 @@ export FILENAME_BASE=cfsr.
 export MESH_ATM=${FILENAME_BASE//.}_mesh.nc
 export atm_datamode=${DATM_SRC}
 export stream_files=INPUT/${FILENAME_BASE}201110.nc
+export EXPORT_ALL=.false.
 export STREAM_OFFSET=0
 
 export BL_SUFFIX=""
@@ -1044,6 +1048,7 @@ export NTILES=1
 export atm_model=datm
 export DATM_IN_CONFIGURE=datm_in.IN
 export DATM_STREAM_CONFIGURE=hafs_datm.streams.era5.IN
+export EXPORT_ALL=.false.
 }
 export_hafs_docn_cdeps ()
 {
@@ -1386,7 +1391,6 @@ export LSM=3
 export LSOIL_LSM=9
 export DO_MYNNSFCLAY=.true.
 export DO_MYNNEDMF=.true.
-export DO_MYJPBL=.true
 export HYBEDMF=.false.
 export SHAL_CNV=.false.
 export DO_SAT_ADJ=.false.
