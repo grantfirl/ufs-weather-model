@@ -25,8 +25,8 @@ export SMONTH=03
 export SDAY=22
 export SHOUR=06
 export OUTPUT_GRID='gaussian_grid'
-export FHMAX=1
-export OUTPUT_FH="0 1"
+export FHMAX=48
+export OUTPUT_FH="1 -1"
 
 export IALB=2
 export IEMS=2

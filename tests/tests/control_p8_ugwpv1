@@ -67,7 +67,8 @@ export SHOUR=06
 export RESTART_INTERVAL="12 -1"
 export OUTPUT_GRID='gaussian_grid'
 export WRITE_DOPOST=.true.
-export OUTPUT_FH='0 21 24'
+export FHMAX=48
+export OUTPUT_FH='1 -1'
 
 export IALB=2
 export IEMS=2
