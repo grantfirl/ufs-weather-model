@@ -16,7 +16,7 @@ export_fv3
 export_hafs
 
 export HAFS=true
-export FHMAX=12
+export FHMAX=6
 export RESTART_N=${FHMAX}
 export atm_omp_num_threads=2
 export DT_ATMOS=180
