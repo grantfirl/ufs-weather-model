@@ -1,0 +1,235 @@
+###############################################################################
+#
+#  Global control test GFSv16 atmosphere only at C96L127, P8 configuration
+#  with UGWPv1, i.e., GSL orographic drag + version 1 non-stationary GWD
+#
+###############################################################################
+
+export TEST_DESCR="Compare global control results with previous trunk version"
+
+export CNTL_DIR=control_p8_ugwpv1
+
+export LIST_FILES="sfcf000.nc \
+                   sfcf001.nc \
+                   sfcf002.nc \
+                   sfcf003.nc \
+                   sfcf004.nc \
+                   sfcf005.nc \
+                   sfcf006.nc \
+                   sfcf007.nc \
+                   sfcf008.nc \
+                   sfcf009.nc \
+                   sfcf010.nc \
+                   sfcf011.nc \
+                   sfcf012.nc \
+                   sfcf013.nc \
+                   sfcf014.nc \
+                   sfcf015.nc \
+                   sfcf016.nc \
+                   sfcf017.nc \
+                   sfcf018.nc \
+                   sfcf019.nc \
+                   sfcf020.nc \
+                   sfcf021.nc \
+                   sfcf022.nc \
+                   sfcf023.nc \
+                   sfcf024.nc \
+                   sfcf025.nc \
+                   sfcf026.nc \
+                   sfcf027.nc \
+                   sfcf028.nc \
+                   sfcf029.nc \
+                   sfcf030.nc \
+                   sfcf031.nc \
+                   sfcf032.nc \
+                   sfcf033.nc \
+                   sfcf034.nc \
+                   sfcf035.nc \
+                   sfcf036.nc \
+                   sfcf037.nc \
+                   sfcf038.nc \
+                   sfcf039.nc \
+                   sfcf040.nc \
+                   sfcf041.nc \
+                   sfcf042.nc \
+                   sfcf043.nc \
+                   sfcf044.nc \
+                   sfcf045.nc \
+                   sfcf046.nc \
+                   sfcf047.nc \
+                   sfcf048.nc \
+                   atmf000.nc \
+                   atmf001.nc \
+                   atmf002.nc \
+                   atmf003.nc \
+                   atmf004.nc \
+                   atmf005.nc \
+                   atmf006.nc \
+                   atmf007.nc \
+                   atmf008.nc \
+                   atmf009.nc \
+                   atmf010.nc \
+                   atmf011.nc \
+                   atmf012.nc \
+                   atmf013.nc \
+                   atmf014.nc \
+                   atmf015.nc \
+                   atmf016.nc \
+                   atmf017.nc \
+                   atmf018.nc \
+                   atmf019.nc \
+                   atmf020.nc \
+                   atmf021.nc \
+                   atmf022.nc \
+                   atmf023.nc \
+                   atmf024.nc \
+                   atmf025.nc \
+                   atmf026.nc \
+                   atmf027.nc \
+                   atmf028.nc \
+                   atmf029.nc \
+                   atmf030.nc \
+                   atmf031.nc \
+                   atmf032.nc \
+                   atmf033.nc \
+                   atmf034.nc \
+                   atmf035.nc \
+                   atmf036.nc \
+                   atmf037.nc \
+                   atmf038.nc \
+                   atmf039.nc \
+                   atmf040.nc \
+                   atmf041.nc \
+                   atmf042.nc \
+                   atmf043.nc \
+                   atmf044.nc \
+                   atmf045.nc \
+                   atmf046.nc \
+                   atmf047.nc \
+                   atmf048.nc \
+                   GFSFLX.GrbF00 \
+                   GFSFLX.GrbF21 \
+                   GFSFLX.GrbF24 \
+                   GFSPRS.GrbF00 \
+                   GFSPRS.GrbF21 \
+                   GFSPRS.GrbF24 \
+                   RESTART/20210323.060000.coupler.res \
+                   RESTART/20210323.060000.fv_core.res.nc \
+                   RESTART/20210323.060000.fv_core.res.tile1.nc \
+                   RESTART/20210323.060000.fv_core.res.tile2.nc \
+                   RESTART/20210323.060000.fv_core.res.tile3.nc \
+                   RESTART/20210323.060000.fv_core.res.tile4.nc \
+                   RESTART/20210323.060000.fv_core.res.tile5.nc \
+                   RESTART/20210323.060000.fv_core.res.tile6.nc \
+                   RESTART/20210323.060000.fv_srf_wnd.res.tile1.nc \
+                   RESTART/20210323.060000.fv_srf_wnd.res.tile2.nc \
+                   RESTART/20210323.060000.fv_srf_wnd.res.tile3.nc \
+                   RESTART/20210323.060000.fv_srf_wnd.res.tile4.nc \
+                   RESTART/20210323.060000.fv_srf_wnd.res.tile5.nc \
+                   RESTART/20210323.060000.fv_srf_wnd.res.tile6.nc \
+                   RESTART/20210323.060000.fv_tracer.res.tile1.nc \
+                   RESTART/20210323.060000.fv_tracer.res.tile2.nc \
+                   RESTART/20210323.060000.fv_tracer.res.tile3.nc \
+                   RESTART/20210323.060000.fv_tracer.res.tile4.nc \
+                   RESTART/20210323.060000.fv_tracer.res.tile5.nc \
+                   RESTART/20210323.060000.fv_tracer.res.tile6.nc \
+                   RESTART/20210323.060000.phy_data.tile1.nc \
+                   RESTART/20210323.060000.phy_data.tile2.nc \
+                   RESTART/20210323.060000.phy_data.tile3.nc \
+                   RESTART/20210323.060000.phy_data.tile4.nc \
+                   RESTART/20210323.060000.phy_data.tile5.nc \
+                   RESTART/20210323.060000.phy_data.tile6.nc \
+                   RESTART/20210323.060000.sfc_data.tile1.nc \
+                   RESTART/20210323.060000.sfc_data.tile2.nc \
+                   RESTART/20210323.060000.sfc_data.tile3.nc \
+                   RESTART/20210323.060000.sfc_data.tile4.nc \
+                   RESTART/20210323.060000.sfc_data.tile5.nc \
+                   RESTART/20210323.060000.sfc_data.tile6.nc"
+
+export_fv3
+export_tiled
+export_ugwpv1
+
+export NPZ=127
+export NPZP=128
+export SYEAR=2021
+export SMONTH=03
+export SDAY=22
+export SHOUR=06
+export RESTART_INTERVAL="12 -1"
+export OUTPUT_GRID='gaussian_grid'
+export WRITE_DOPOST=.true.
+export OUTPUT_FH='0 21 24'
+
+export IALB=2
+export IEMS=2
+export IOPT_DVEG=4
+export IOPT_CRS=2
+export IOPT_RAD=3
+export IOPT_ALB=1
+export IOPT_STC=3
+export IOPT_SFC=3
+export IOPT_TRS=2
+export IOPT_DIAG=2
+
+export D2_BG_K1=0.20
+export D2_BG_K2=0.04
+export PSM_BC=1
+export DDDMP=0.1
+
+# Merra2 Aerosols & NSST
+export USE_MERRA2=.true.
+export IAER=1011
+export NSTF_NAME=2,1,0,0,0
+
+export LHEATSTRG=.false.
+export LSEASPRAY=.true.
+
+# CA
+export DO_CA=.true.
+export CA_SGS=.true.
+export CA_GLOBAL=.false.
+export NCA=1
+export NCELLS=5
+export NLIVES=12
+export NTHRESH=18
+export NSEED=1
+export NFRACSEED=0.5
+export CA_TRIGGER=.true.
+export NSPINUP=1
+export ISEED_CA=12345
+
+export IMP_PHYSICS=8
+export LGFDLMPRAD=.false.
+export DO_SAT_ADJ=.false.
+export DNATS=0
+export DZ_MIN=6
+
+#required for NML.IN sharing
+export MIN_SEAICE=0.15
+export FRAC_GRID=.true.
+export MOM6_OUTPUT_DIR=./MOM6_OUTPUT
+export MOM6_RESTART_DIR=./RESTART/
+export MOM6_RESTART_SETTING=n
+# Follwoing not used for standalone
+export USE_CICE_ALB=.false.
+
+export WRITE_NSFLIP=.true.
+
+export FHMAX=48
+export OUTPUT_FH="1 -1"
+
+export FV3_RUN=control_run.IN
+export CCPP_SUITE=FV3_GFS_v17_p8_ugwpv1
+export FIELD_TABLE=field_table_thompson_noaero_tke
+export DIAG_TABLE=diag_table_cpld.IN
+export INPUT_NML=global_control.nml.IN
+
+# RRTMGP
+export DO_RRTMGP=.false.
+export DOGP_LWSCAT=.true.
+
+export K_SPLIT=2
+export N_SPLIT=4
+
+export SATMEDMF=.true.
