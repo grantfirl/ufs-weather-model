@@ -6,7 +6,7 @@
 
 export TEST_DESCR="Compare HAFS regional atmosphere only results with previous trunk version"
 
-export CNTL_DIR=hafs_regional_atm_gfdlmpv3
+export CNTL_DIR=hafs_regional_atm_gfdlmpv3_debug
 
 export LIST_FILES="sfcf000.nc \
                    sfcf001.nc \

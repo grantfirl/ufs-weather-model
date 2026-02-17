@@ -9,10 +9,30 @@ export TEST_DESCR="Compare RRFS_v1nssl results with previous trunk version"
 export CNTL_DIR=rrfs_v1nssl
 
 export LIST_FILES="sfcf000.nc \
+                   sfcf001.nc \
+                   sfcf002.nc \
+                   sfcf003.nc \
+                   sfcf004.nc \
+                   sfcf005.nc \
+                   sfcf006.nc \
+                   sfcf007.nc \
+                   sfcf008.nc \
                    sfcf009.nc \
+                   sfcf010.nc \
+                   sfcf011.nc \
                    sfcf012.nc \
                    atmf000.nc \
+                   atmf001.nc \
+                   atmf002.nc \
+                   atmf003.nc \
+                   atmf004.nc \
+                   atmf005.nc \
+                   atmf006.nc \
+                   atmf007.nc \
+                   atmf008.nc \
                    atmf009.nc \
+                   atmf010.nc \
+                   atmf011.nc \
                    atmf012.nc \
                    GFSFLX.GrbF00 \
                    GFSFLX.GrbF09 \
@@ -24,6 +44,9 @@ export LIST_FILES="sfcf000.nc \
 export_rrfs_v1
 export RESTART_INTERVAL="6 -1"
 export OUTPUT_FH='0 09 12'
+
+export FHMAX=12
+export OUTPUT_FH="1 -1"
 
 export CCPP_SUITE=FV3_RRFS_v1nssl
 export FIELD_TABLE=field_table_nssl_tke

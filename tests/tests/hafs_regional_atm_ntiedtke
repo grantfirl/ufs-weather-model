@@ -8,8 +8,20 @@ export TEST_DESCR="Compare HAFS regional atmosphere only results with previous t
 
 export CNTL_DIR=hafs_regional_atm_ntiedtke
 
-export LIST_FILES="atmf006.nc \
+export LIST_FILES="sfcf000.nc \
+                   sfcf001.nc \
+                   sfcf002.nc \
+                   sfcf003.nc \
+                   sfcf004.nc \
+                   sfcf005.nc \
                    sfcf006.nc \
+                   atmf000.nc \
+                   atmf001.nc \
+                   atmf002.nc \
+                   atmf003.nc \
+                   atmf004.nc \
+                   atmf005.nc \
+                   atmf006.nc \
                    HURPRS.GrbF06"
 
 export_fv3
@@ -89,6 +101,9 @@ export CPL_IMP_MRG=.false.
 export CMEPS=false
 export RUNTYPE=startup
 export USE_COLDSTART=false
+
+export FHMAX=6
+export OUTPUT_FH="1 -1"
 
 export FIELD_TABLE=field_table_hafs
 export DIAG_TABLE=diag_table_hafs_template.IN

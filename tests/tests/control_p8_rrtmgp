@@ -9,11 +9,103 @@ export TEST_DESCR="Compare global control results with previous trunk version"
 export CNTL_DIR=control_p8_rrtmgp
 
 export LIST_FILES="sfcf000.nc \
+                   sfcf001.nc \
+                   sfcf002.nc \
+                   sfcf003.nc \
+                   sfcf004.nc \
+                   sfcf005.nc \
+                   sfcf006.nc \
+                   sfcf007.nc \
+                   sfcf008.nc \
+                   sfcf009.nc \
+                   sfcf010.nc \
+                   sfcf011.nc \
+                   sfcf012.nc \
+                   sfcf013.nc \
+                   sfcf014.nc \
+                   sfcf015.nc \
+                   sfcf016.nc \
+                   sfcf017.nc \
+                   sfcf018.nc \
+                   sfcf019.nc \
+                   sfcf020.nc \
                    sfcf021.nc \
+                   sfcf022.nc \
+                   sfcf023.nc \
                    sfcf024.nc \
+                   sfcf025.nc \
+                   sfcf026.nc \
+                   sfcf027.nc \
+                   sfcf028.nc \
+                   sfcf029.nc \
+                   sfcf030.nc \
+                   sfcf031.nc \
+                   sfcf032.nc \
+                   sfcf033.nc \
+                   sfcf034.nc \
+                   sfcf035.nc \
+                   sfcf036.nc \
+                   sfcf037.nc \
+                   sfcf038.nc \
+                   sfcf039.nc \
+                   sfcf040.nc \
+                   sfcf041.nc \
+                   sfcf042.nc \
+                   sfcf043.nc \
+                   sfcf044.nc \
+                   sfcf045.nc \
+                   sfcf046.nc \
+                   sfcf047.nc \
+                   sfcf048.nc \
                    atmf000.nc \
+                   atmf001.nc \
+                   atmf002.nc \
+                   atmf003.nc \
+                   atmf004.nc \
+                   atmf005.nc \
+                   atmf006.nc \
+                   atmf007.nc \
+                   atmf008.nc \
+                   atmf009.nc \
+                   atmf010.nc \
+                   atmf011.nc \
+                   atmf012.nc \
+                   atmf013.nc \
+                   atmf014.nc \
+                   atmf015.nc \
+                   atmf016.nc \
+                   atmf017.nc \
+                   atmf018.nc \
+                   atmf019.nc \
+                   atmf020.nc \
                    atmf021.nc \
+                   atmf022.nc \
+                   atmf023.nc \
                    atmf024.nc \
+                   atmf025.nc \
+                   atmf026.nc \
+                   atmf027.nc \
+                   atmf028.nc \
+                   atmf029.nc \
+                   atmf030.nc \
+                   atmf031.nc \
+                   atmf032.nc \
+                   atmf033.nc \
+                   atmf034.nc \
+                   atmf035.nc \
+                   atmf036.nc \
+                   atmf037.nc \
+                   atmf038.nc \
+                   atmf039.nc \
+                   atmf040.nc \
+                   atmf041.nc \
+                   atmf042.nc \
+                   atmf043.nc \
+                   atmf044.nc \
+                   atmf045.nc \
+                   atmf046.nc \
+                   atmf047.nc \
+                   atmf048.nc \
                    GFSFLX.GrbF00 \
                    GFSFLX.GrbF21 \
                    GFSFLX.GrbF24 \
@@ -128,6 +220,9 @@ export FV3_RUN=control_run.IN
 export FIELD_TABLE=field_table_thompson_noaero_tke
 export DIAG_TABLE=diag_table_cpld.IN
 export INPUT_NML=global_control.nml.IN
+
+export FHMAX=48
+export OUTPUT_FH="1 -1"
 
 # RRTMGP
 export DO_RRTMGP=.true.

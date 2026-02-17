@@ -1,12 +1,12 @@
 ###############################################################################
 #
-#  HAFS regional atmosphere only using GFDLMP Version 3
+#  HAFS regional atmosphere only
 #
 ###############################################################################
 
 export TEST_DESCR="Compare HAFS regional atmosphere only results with previous trunk version"
 
-export CNTL_DIR=hafs_regional_atm_gfdlmpv3
+export CNTL_DIR=hafs_regional_atm_ntiedtke_debug
 
 export LIST_FILES="sfcf000.nc \
                    sfcf001.nc \
@@ -32,7 +32,7 @@ export FHMAX=6
 export RESTART_N=${FHMAX}
 export atm_omp_num_threads=2
 export DT_ATMOS=180
-export IDEFLATE=1
+export ZSTANDARD_LEVEL=5
 export OUTPUT_FH='3 -1'
 export OUTPUT_FILE="'netcdf' 'netcdf'"
 export SDAY=29
@@ -41,8 +41,6 @@ export SMONTH=08
 export SYEAR=2019
 export WRTTASK_PER_GROUP=60
 export WRITE_DOPOST=.true.
-export IAER=1011
-export USE_MERRA2=.true.
 export POSTAPP='hafs'
 
 export OUTPUT_GRID='regional_latlon'
@@ -56,7 +54,9 @@ export DLON=0.1
 export DLAT=0.1
 
 export BLOCKSIZE=40
-export CCPP_SUITE=FV3_HAFS_v1_gfdlmpv3_tedmf
+export CCPP_SUITE=FV3_HAFS_v1_gfdlmp_tedmf_ntiedtke
+export IMFDEEPCNV=4
+export IMFSHALCNV=4
 export DEFLATE_LEVEL=-1
 export INPES=20
 export JNPES=12
@@ -107,7 +107,7 @@ export OUTPUT_FH="1 -1"
 
 export FIELD_TABLE=field_table_hafs
 export DIAG_TABLE=diag_table_hafs_template.IN
-export INPUT_NML=input_regional_hafs_gfdlmpv3.nml.IN
+export INPUT_NML=input_regional_hafs.nml.IN
 export MODEL_CONFIGURE=model_configure_hafs.IN
 export UFS_CONFIGURE=ufs.configure.hafs_atm.IN
 export FV3_RUN=hafs_fv3_run.IN
