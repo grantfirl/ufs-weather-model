@@ -8,8 +8,8 @@ done
 if [ ${CNTL_DIR} = "hafs_regional_atm" ] || \
    [ ${CNTL_DIR} = "hafs_regional_atm_gfdlmpv3" ] || \
    [ ${CNTL_DIR} = "hafs_regional_atm_thompson_gfdlsf" ] || \
-   [ ${CNTL_DIR} = "hafs_regional_atm_thompson_gfdlsf_ntiedtke" ] || \
-   [ ${CNTL_DIR} = "hafs_regional_atm_thompson_gfdlsf_ntiedtke_debug" ] || \
+   [ ${CNTL_DIR} = "hafs_regional_atm_ntiedtke" ] || \
+   [ ${CNTL_DIR} = "hafs_regional_atm_ntiedtke_debug" ] || \
    [ ${CNTL_DIR} = "hafs_regional_atm_ocn" ] || \
    [ ${CNTL_DIR} = "hafs_regional_atm_wav" ] || \
    [ ${CNTL_DIR} = "hafs_regional_atm_ocn_wav" ] || \
@@ -38,8 +38,8 @@ else
 fi
 
 if [ ${CNTL_DIR} = "hafs_regional_atm_thompson_gfdlsf" ] || \
-   [ ${CNTL_DIR} = "hafs_regional_atm_thompson_gfdlsf_ntiedtke" ] || \
-   [ ${CNTL_DIR} = "hafs_regional_atm_thompson_gfdlsf_ntiedtke_debug" ] || \[ $IMP_PHYSICS = 8 ]; then
+   [ ${CNTL_DIR} = "hafs_regional_atm_ntiedtke" ] || \
+   [ ${CNTL_DIR} = "hafs_regional_atm_ntiedtke_debug" ] || \[ $IMP_PHYSICS = 8 ]; then
   cp @[INPUTDATA_ROOT]/FV3_fix/qr_acr_qsV2.dat .
   cp @[INPUTDATA_ROOT]/FV3_fix/qr_acr_qgV2.dat .
   cp @[INPUTDATA_ROOT]/FV3_fix/freezeH2O.dat .

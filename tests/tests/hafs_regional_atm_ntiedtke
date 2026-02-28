@@ -4,24 +4,24 @@
 #
 ###############################################################################
 
-export TEST_DESCR="Compare the results from HAFS regional atmosphere only using the Thompson microphysics scheme and GFDL surface layer scheme and nTiedtke convection with previous trunk version"
+export TEST_DESCR="Compare the results from HAFS regional atmosphere only using the Thompson microphysics, nTiedtke convection, and GFDL surface layer scheme with previous trunk version"
 
-export CNTL_DIR=hafs_regional_atm_thompson_gfdlsf_ntiedtke_debug
+export CNTL_DIR=hafs_regional_atm_ntiedtke
 
-export LIST_FILES="sfcf000.nc \
-                   sfcf001.nc \
-                   sfcf002.nc \
-                   sfcf003.nc \
-                   sfcf004.nc \
-                   sfcf005.nc \
-                   sfcf006.nc \
-                   atmf000.nc \
+export LIST_FILES="atmf000.nc \
                    atmf001.nc \
                    atmf002.nc \
                    atmf003.nc \
                    atmf004.nc \
                    atmf005.nc \
-                   atmf006.nc \"
+                   atmf006.nc \
+                   sfcf000.nc \
+                   sfcf001.nc \
+                   sfcf002.nc \
+                   sfcf003.nc \
+                   sfcf004.nc \
+                   sfcf005.nc \ 
+                   sfcf006.nc"
 
 export_fv3
 export_hafs
@@ -33,6 +33,7 @@ export atm_omp_num_threads=2
 export DT_ATMOS=180
 export DT_INNER=${DT_ATMOS}
 export ZSTANDARD_LEVEL=0
+export OUTPUT_FH='3 -1'
 export OUTPUT_FILE="'netcdf' 'netcdf'"
 export SDAY=29
 export SHOUR=00
@@ -43,9 +44,7 @@ export WRTTASK_PER_GROUP=60
 export OUTPUT_GRID='cubed_sphere_grid'
 
 export BLOCKSIZE=40
-export CCPP_SUITE=FV3_HAFS_v1_thompson_tedmf_gfdlsf_tiedtke
-export IMFDEEPCNV=4
-export IMFSHALCNV=4
+export CCPP_SUITE=FV3_HAFS_v1_ntiedtke
 export DEFLATE_LEVEL=-1
 export INPES=20
 export JNPES=12
@@ -95,6 +94,8 @@ export RUNTYPE=startup
 export USE_COLDSTART=false
 
 export OUTPUT_FH="1 -1"
+export IMFSHALCNV=4
+export IMFDEEPCNV=4
 
 export FIELD_TABLE=field_table_hafs_thompson
 export DIAG_TABLE=diag_table_hafs_template.IN
