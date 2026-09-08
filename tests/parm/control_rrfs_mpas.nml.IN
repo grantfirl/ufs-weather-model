@@ -121,7 +121,9 @@
   ivegsrc      = 1
   isot         = 1
   lsoil        = 4
-  lsm          = 1
+  lsm          = 3
+  lsoil_lsm    = 9
+  kice         = 9
   iopt_dveg    = 1
   iopt_crs     = 1
   iopt_btr     = 1
