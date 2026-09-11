@@ -106,8 +106,11 @@
   redrag       = .true.
   dspheat      = .true.
   hybedmf      = .false.
-  satmedmf     = .true.
+  satmedmf     = .false.
   isatmedmf    = 1
+  do_mynnedmf  = @[DO_MYNNEDMF]
+  do_mynnsfclay = @[DO_MYNNSFCLAY]
+  sfclay_compute_flux = @[SFCLAY_COMPUTE_FLUX]
   lheatstrg    = @[LHEATSTRG]
   lseaspray    = @[LSEASPRAY]
   random_clds  = @[RANDOM_CLDS]
@@ -120,7 +123,7 @@
   prslrd0      = 0.
   ivegsrc      = 1
   isot         = 1
-  lsoil        = 4
+  lsoil        = 9
   lsm          = 3
   lsoil_lsm    = 9
   kice         = 9
@@ -180,6 +183,7 @@
   tend_opt_swrad = 4
   tend_opt_lwrad = 4
   tend_opt_rad_scaler = 2
+  tend_opt_pbl = 2
   tend_opt_photochem = 2
   tend_opt_mp = 2
   tend_opt_gwd = 2
